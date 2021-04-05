@@ -215,10 +215,8 @@ report_title = function(
   tnames = c("name", "title")
   y <- if(x %in% names(.clunames)){
     .clunames[[x]] # if alias exists already
-  }else if(any(tnames %in% names(conf$lock))){
-    print(tnames %in% names(conf$lock))
-    print(names(conf$lock))
-    conf$lock[[which(names(conf$lock) %in% tnames)]] # it's locked! so take the name
+  # }else if(any(tnames %in% names(conf$lock))){
+  #   conf$lock[[which(names(conf$lock) %in% tnames)]] # it's locked! so take the name
   }else if(any(tnames %in% names(conf))){
     conf[[which(names(conf) %in% tnames)]] # wow, you decided to put a name in the step's list
   }else if(grepl("clu[A-z]{1,}", x)){
