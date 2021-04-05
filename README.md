@@ -19,6 +19,9 @@ is to make a summary of your pipeline easier.
 The central concept is having a set of “steps” your analysis follows,
 but it is not limited to a sequential design.
 
+A bit late for a meeting to update and want something nice to show? In a
+few minutes, you can create a nice website for your project.
+
 ## Installation
 
 You can install the developing version of wreportr from
