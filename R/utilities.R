@@ -825,7 +825,7 @@ report_section = function(
     table_summarise = processed$config$table_summarise
   )
   report_issues(x = processed$config, hlevel = paste0(hlevel, "#"))
-  report_link(x = processed$output)
+  report_link(x = processed$output, address = object@address)
   path_tree(path = processed$output, hide = TRUE)
   report_files(
     confs = object@steps, name = name,
