@@ -1,0 +1,8 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  example1: example1.html
+  example3: example3.html
+last_built: 2021-04-05T21:00Z
+
