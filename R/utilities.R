@@ -543,9 +543,8 @@ report_tables = function(
   "    lengthMenu = list(c(5, 10, 15, -1), c('5', '10', '15', 'All')),\n",
   "    scrollX = TRUE\n",
   "  )\n",
-  ")\n```\n")
-  java_toggle_table_f = function(x){
-    paste0("<script type='text/javascript'>\n",
+  ")\n```\n\n")
+  java_toggle_f = paste0("<script type='text/javascript'>\n",
     "  function toggle(id) {\n",
     "    var e = document.getElementById(id);\n",
     "    if(e.style.display == 'block')\n",
@@ -553,8 +552,9 @@ report_tables = function(
     "    else\n",
     "       e.style.display = 'block';\n",
     "  }\n",
-    "</script>\n\n",
-    "<div id='msum", x, "' style='display:none'>\n",
+    "</script>\n\n")
+  java_toggle_table_f = function(x){
+    paste0("<div id='msum", x, "' style='display:none'>\n",
     "```{r metadata_summary", x, ", echo = FALSE, eval = TRUE}\n",
     "knitr::kable(wreportr::get_summary_table(dtdf), align = 'l')\n",
     "```\n\n",
@@ -565,6 +565,7 @@ report_tables = function(
 
   mytab_files <- if(!is.null(x)) x[file.exists(x)]
   if(is.null(interactive)) interactive = "choose"
+  if(isTRUE(table_summarise)) cat(java_toggle_f)
   if(length(mytab_files) > 0){
     for(i in 1:length(mytab_files)){
       mytab_df = lapply(X = mytab_files[[i]], data.table::fread)
