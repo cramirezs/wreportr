@@ -41,19 +41,7 @@ setClass(
 #' }
 #' @rdname create_wsteps
 #' @export
-create_wsteps <- function(
-  steps,
-  project.name = "My project",
-  author = Sys.info()[["user"]],
-  affiliation = "Lab",
-  email = paste0(Sys.info()[["user"]], "@email.com"),
-  address = "file://",
-  path = "",
-  markdown = list("")
-) {
-  UseMethod(generic = "create_wsteps")
-}
-create_wsteps.default = function(
+create_wsteps = function(
   steps,
   project.name = "My project",
   author = Sys.info()[["user"]],
@@ -77,31 +65,6 @@ create_wsteps.default = function(
     markdown = markdown
   )
 }
-setMethod(
-  "create_wsteps",
-  "Reportr",
-  function(
-    steps,
-    project.name = "My project",
-    author = Sys.info()[["user"]],
-    affiliation = "Lab",
-    email = paste0(Sys.info()[["user"]], "@email.com"),
-    address = "file://",
-    path = "",
-    markdown = list("")
-  ) {
-    create_wsteps.default(
-      steps,
-      project.name = "My project",
-      author = Sys.info()[["user"]],
-      affiliation = "Lab",
-      email = paste0(Sys.info()[["user"]], "@email.com"),
-      address = "file://",
-      path = "",
-      markdown = list("")
-    )
-  }
-)
 
 show <- function(object) {
   UseMethod(generic = "show")
