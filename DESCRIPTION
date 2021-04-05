@@ -10,6 +10,8 @@ Authors@R:
 Description: Creates a report of your pipeline or workflow
     or simply a collection of folders.
 License: GPL (>= 3)
+URL: https://github.com/cramirezs/wreportr
+BugReports: https://github.com/cramirezs/wreportr/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
