@@ -865,11 +865,12 @@ report_set_titles = function(
     names(object@steps) = paste0("step_", 1:length(object@steps))
   nameless <- which(names(object@steps) == "")
   names(object@steps)[nameless] <- paste0("step_", nameless)
-  for(i in names(object@steps)){
-    i_t = if(is.null(preset_titles[[i]])) make_title(i) else preset_titles[[i]]
-    if(!grepl("^$", i_t)) paste("$\\Box$", i_t)
+  for(i_t in 1:length(object@steps)){
+    i = sub(".*~", "", names(object@steps)[i_t])
+    i = if(is.null(preset_titles[[i]])) make_title(i) else preset_titles[[i]]
+    if(!grepl("$.*$", i)) i <- paste("$\\Box$", i)
     if(!"title" %in% names(object@steps[[i]]))
-      object@steps[[i]] <- c(as.list(object@steps[[i]]), title = i_t)
+      object@steps[[i]] <- c(as.list(object@steps[[i]]), title = i)
   }
   return(object)
 }
@@ -970,16 +971,17 @@ report_steps = function(
 ) {
   grouped_init = TRUE
   snames = names(object@steps)
-  for(i in snames){
-    grouped = if(grepl("~", i)){
-      gname = sub("~.*", "", i)
+  for(i in 1:length(snames)){
+    sname = snames[i]
+    grouped = if(grepl("~", sname)){
+      gname = sub("~.*", "", sname)
       if(gname == "") gname = paste("Step group", min(which(grep(gname, snames))))
       if(grouped_init) cat("##", make_title(gname), "\n"); grouped_init = FALSE
-      i = names(object@steps)[which(snames == i)] = sub(".*~", "", i); "#"
+      sname = names(object@steps)[which(snames == sname)] = sub(".*~", "", sname); "#"
     }else{ grouped_init = TRUE; "" }
     report_section(
       object = object,
-      name = i,
+      name = sname,
       hlevel = paste0("##", grouped)
     )
   }
