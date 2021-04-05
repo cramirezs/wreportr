@@ -18,14 +18,14 @@ Imports:
     magrittr,
     rmarkdown (>= 2.6),
     yaml (>= 2.2.1),
-    knitr (>= 1.30),
+    knitr (>= 1.28),
     DT (>= 0.13),
     reshape2 (>= 1.4.4),
     stringr (>= 1.4.0),
-    data.table (>= 1.13.4),
-    utils (>= 3.6.3),
-    stats (>= 3.6.3),
-    methods (>= 3.6.3)
+    data.table (>= 1.13.2),
+    utils (>= 3.6.1),
+    stats (>= 3.6.1),
+    methods (>= 3.6.1)
 Depends: 
     R (>= 2.10)
 Suggests: 
