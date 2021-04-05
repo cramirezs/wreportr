@@ -560,7 +560,7 @@ report_tables = function(
     "```\n\n",
     "</div>\n\n",
     "<button title='Click to show' type='button' onclick='toggle('msum", x, "')'>",
-    "Summary</button>\n")
+    "Summary</button>\n<p> </p>\n")
   }
 
   mytab_files <- if(!is.null(x)) x[file.exists(x)]

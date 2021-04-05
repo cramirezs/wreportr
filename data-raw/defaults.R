@@ -25,6 +25,20 @@ preset_titles = list(
 )
 
 preset_description = list(
+  seqr =
+"You can either use mkfastq or bcl2fastq. In this case we did it with `bcl2fastq`.
+
++ Please make sure names are appropriate and consistent across all runs.
++ Prepare IEM sample sheet [carefully choosing the names].",
+  demx =
+"Pre-processing data with Cell Ranger. We have a
+[wrapper](https://github.com/vijaybioinfo/cellranger_wrappeR) for this if you
+don't want to prepare a script for each of your samples.
+Critical step; it takes a lot of time and memory.
+We should probably start checking kallisto-bustools.
+
+1. Prepare feature reference and aggregation files.
+2. Check you're taking the right **reference genome**.",
   cite =
 "You will make use of the [ab_capture](https://github.com/vijaybioinfo/ab_capture) scripts.
 
