@@ -110,7 +110,7 @@ path_tree = function(
 #' @param path Path equivalent of the address, Default: '/mnt/BioAdHoc/Groups/'.
 #' @return List with output path and config (the rest of the information in the)
 #'   the step element).
-#' @details It can also take a yaml file with output_dir(/project).
+#' @details It can also take a yaml file with output_dir(followed by /project).
 #' @examples
 #' \dontrun{
 #'  if(interactive()){
@@ -136,7 +136,7 @@ process_step = function(
   if(is.null(name)) name = 1
   if(isTRUE(names(object)[1] == "")) names(object)[1] = "output"
   if(names(object)[1] != "output") object = c(output = "no_path/found", object)
-  config = list(output_dir = "no_path/found")
+  config = list()
   if(is.null(object[[name]]))
     return(list(output = "no_path/found", config = config))
   output = NULL; step_i = object[[name]]
@@ -573,9 +573,9 @@ report_tables = function(
       if(isTRUE(interactive == "choose")) interactive = isTRUE(nrow(mytab_df) > 15)
       if(isTRUE(interactive)){
         tmp = tempfile(fileext = ".rmd") # mytab_files[[i]] = c("f1", "f2")
-        cat("```{r childish, echo=FALSE}\n",
-          paste0("myfiles = c('", paste0(mytab_files[[i]], collapse = "', '"), "')\n"),
-          dt_datatable, file = tmp)
+        cat(paste0("```{r childish", i, ", echo=FALSE}\n",
+          "myfiles = c('", paste0(mytab_files[[i]], collapse = "', '"), "')\n",
+          dt_datatable), file = tmp)
         if(isTRUE(table_summarise)){
           cat(java_toggle_table_f(i), append = TRUE, file = tmp)
         }
@@ -827,7 +827,6 @@ report_section = function(
   report_command(x = processed$config)
   report_filters(x = processed$config)
   report_parameters(x = processed$config)
-  print(processed)
   report_tables(
     x = processed$config$table,
     interactive = processed$config$interactive,
