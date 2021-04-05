@@ -544,7 +544,7 @@ report_tables = function(
   "    scrollX = TRUE\n",
   "  )\n",
   ")\n```\n\n")
-  java_toggle_f = paste0("<script type='text/javascript'>\n",
+  java_toggle_f = paste0("<script type=\"text/javascript\">\n",
     "  function toggle(id) {\n",
     "    var e = document.getElementById(id);\n",
     "    if(e.style.display == 'block')\n",
@@ -554,12 +554,12 @@ report_tables = function(
     "  }\n",
     "</script>\n\n")
   java_toggle_table_f = function(x){
-    paste0("<div id='msum", x, "' style='display:none'>\n",
+    paste0("<div id=\"msum", x, "\" style=\"display:none\">\n",
     "```{r metadata_summary", x, ", echo = FALSE, eval = TRUE}\n",
     "knitr::kable(wreportr::get_summary_table(dtdf), align = 'l')\n",
     "```\n\n",
     "</div>\n\n",
-    "<button title='Click to show' type='button' onclick='toggle('msum", x, "')'>",
+    "<button title=\"Click to show\" type=\"button\" onclick=\"toggle('msum", x, "')\">",
     "Summary</button>\n<p> </p>\n")
   }
 
