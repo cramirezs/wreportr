@@ -1,0 +1,50 @@
+---
+title: "Using an R markdown file"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example3}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Generate the pipeline outputs
+
+```{r foo_pipe, eval = FALSE}
+library(wreportr)
+
+rmd_file = tempfile(fileext = "example3.rmd")
+main_dir = paste0(dirname(rmd_file), "/")
+dir.create(main_dir)
+write.csv(mtcars, file = paste0(main_dir, "alldata.csv"))
+vars = t(utils::combn(x = colnames(mtcars)[1:3], m = 2))
+for(i in 1:nrow(vars)){
+  step_dir = paste0(main_dir, paste0(vars[i, ], collapse = "-"), "/")
+  dir.create(step_dir)
+  pdf(paste0(step_dir, "aplot.pdf")); plot(mtcars[, vars[i, ]]); dev.off()
+  write.csv(mtcars[, vars[i, ]], file = paste0(step_dir, "atable.csv"))
+}
+```
+
+# Create the Report object
+
+```{r reportr_object, eval = FALSE}
+my_steps = list(
+  metadata = list(table = paste0("'", main_dir, "alldata.csv'"))
+)
+for(i in 1:nrow(vars)){
+  my_steps[[i + 1]] = paste0(main_dir, paste0(vars[i, ], collapse = "-"), "/")
+}
+# You can even add text as if you're dealing with latex
+my_steps[[2]] <- list(my_steps[[2]], title = "$\\checkmark$ Critical result")
+
+reportr = create_wsteps(my_steps)
+reportr = reportr_set_titles(reportr)
+report_render(reportr, output_file = "~/Documents/example3")
+```

@@ -1,0 +1,10 @@
+---
+title: "My side project"
+output: html_document
+steps:
+  metadata: /Users/ciro/Documents/liai/covid19/part2/metadata_library.csv
+  step_1: /Users/ciro/Documents/liai/covid19/literature
+  step_2: /Users/ciro/Documents/liai/covid19/part1
+  step_3: /Users/ciro/Documents/liai/covid19/part2
+  step_4: /Users/ciro/Documents/liai/published/covid19
+...

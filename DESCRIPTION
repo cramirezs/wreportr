@@ -1,0 +1,33 @@
+Package: wreportr
+Title: Summarise Your Folders
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ciro",
+           family = "Ramírez-Suástegui",
+           role = c("aut", "cre"),
+           email = "ksuasteguic@gmail.com",
+           comment = c(ORCID = "0000-0001-8126-710X"))
+Description: Creates a report of your pipeline or workflow
+    or simply a collection of folders.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    magrittr,
+    rmarkdown (>= 2.6),
+    yaml (>= 2.2.1),
+    knitr (>= 1.30),
+    DT (>= 0.16),
+    reshape2 (>= 1.4.4),
+    stringr (>= 1.4.0),
+    data.table (>= 1.13.4),
+    utils (>= 3.6.3),
+    stats (>= 3.6.3),
+    methods (>= 3.6.3)
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    data.tree (>= 1.0.0)
+VignetteBuilder: knitr

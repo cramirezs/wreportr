@@ -1,0 +1,23 @@
+---
+title: "YAML example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example1}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, eval = FALSE}
+library(wreportr)
+report_yaml(
+  "/Users/ciro/Documents/liai/scripts/reportr_pkg/vignettes/example1.yaml",
+  output_file = '~/Documents/reportr_example1'
+)
+```
