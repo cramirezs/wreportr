@@ -29,7 +29,7 @@ devtools::install_github("wreportr")
 
 ## Examples
 
-There are several [ways](vignette/) of generating your HTML report, but
+There are several [ways](vignettes/) of generating your HTML report, but
 the input essentially looks like this:
 
 ``` yaml
