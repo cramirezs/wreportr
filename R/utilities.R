@@ -968,11 +968,20 @@ markdown_check = function(
 report_steps = function(
   object
 ) {
-  for(i in names(object@steps)){
+  grouped_init = TRUE
+  snames = names(object@steps)
+  for(i in snames){
+    grouped = if(grepl("~", i)){
+      gname = sub("~.*", "", i)
+      if(gname == "") gname = paste("Step group", min(which(grep(gname, snames))))
+      if(grouped_init) cat("##", make_title(gname), "\n"); grouped_init = FALSE
+      names(object@steps)[which(snames == i)] = sub(".*~", "", i)
+      grouped = "#"
+    }else{ grouped_init = TRUE; "" }
     report_section(
       object = object,
       name = i,
-      hlevel = "##"
+      hlevel = paste0("##", grouped)
     )
   }
 }
