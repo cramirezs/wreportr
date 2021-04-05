@@ -13,10 +13,10 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![R-CMD-check](https://github.com/cramirezs/wreportr/workflows/R-CMD-check/badge.svg)](https://github.com/cramirezs/wreportr/actions)
 <!-- badges: end -->
 
-The goal of wreportr is to make a summary of your pipeline easier.
+The goal of [wreportr](https://cramirezs.github.io/wreportr/index.html)
+is to make a summary of your pipeline easier.
 
-The cenral concept is having a set of “steps” your analysis follows,
-
+The central concept is having a set of “steps” your analysis follows,
 but it is not limited to a sequential design.
 
 ## Installation
