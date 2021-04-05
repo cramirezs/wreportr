@@ -529,26 +529,6 @@ report_tables = function(
   interactive = "choose",
   table_summarise = FALSE
 ){
-  java_toggle_table_f = function(x){
-    paste0("<script type='text/javascript'>\n",
-    "  function toggle(id) {\n",
-    "    var e = document.getElementById(id);\n",
-    "    if(e.style.display == 'block')\n",
-    "       e.style.display = 'none';\n",
-    "    else\n",
-    "       e.style.display = 'block';\n",
-    "  }\n",
-    "</script>\n\n",
-    "<div id='msum", x, "' style='display:none'>\n",
-    "```{r metadata_summary", x, ", echo = FALSE, eval = TRUE}\n",
-    "if(file.exists(ldata_file)){\n",
-    "  knitr::kable(get_summary_table(mytab_df), align = 'l')\n",
-    "}\n",
-    "```\n\n",
-    "</div>\n\n",
-    "<button title='Click to show' type='button' onclick='toggle('msum", x, "')'>",
-    "Summary</button>\n")
-  }
   dt_datatable = paste0("dtdf = lapply(X = myfiles, data.table::fread)\n",
   "dtdf <- as.data.frame(data.table::rbindlist(dtdf, fill = TRUE))\n",
   "DT::datatable(\n",
@@ -564,6 +544,25 @@ report_tables = function(
   "    scrollX = TRUE\n",
   "  )\n",
   ")\n```\n")
+  java_toggle_table_f = function(x){
+    paste0("<script type='text/javascript'>\n",
+    "  function toggle(id) {\n",
+    "    var e = document.getElementById(id);\n",
+    "    if(e.style.display == 'block')\n",
+    "       e.style.display = 'none';\n",
+    "    else\n",
+    "       e.style.display = 'block';\n",
+    "  }\n",
+    "</script>\n\n",
+    "<div id='msum", x, "' style='display:none'>\n",
+    "```{r metadata_summary", x, ", echo = FALSE, eval = TRUE}\n",
+    "knitr::kable(wreportr::get_summary_table(dtdf), align = 'l')\n",
+    "```\n\n",
+    "</div>\n\n",
+    "<button title='Click to show' type='button' onclick='toggle('msum", x, "')'>",
+    "Summary</button>\n")
+  }
+
   mytab_files <- if(!is.null(x)) x[file.exists(x)]
   if(is.null(interactive)) interactive = "choose"
   if(length(mytab_files) > 0){
@@ -580,9 +579,8 @@ report_tables = function(
           cat(java_toggle_table_f(i), append = TRUE, file = tmp)
         }
         res <- if(!is.null(knitr::current_input())){
-          print("knitting child")
           knitr::knit_child(tmp, quiet = TRUE)
-        }else{ print("reading"); readLines(tmp) }
+        }else{ readLines(tmp) }
         cat(res, sep = '\n'); cat("\n\n")
       }else{
         print(knitr::kable(mytab_df, align = "c", digits = 2))
