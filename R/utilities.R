@@ -160,7 +160,7 @@ process_step = function(
   }
   if(length(output) > 1){ # finding names for each path
     str_shared = do.call(intersect, strsplit(split = "\\/", x = output))
-    out_names = sapply(X = out_names, FUN = function(s){
+    out_names = sapply(X = str_shared, FUN = function(s){
       y <- setdiff(x = unlist(x = strsplit(split = "\\/", x = s)), y = str_shared)
       basename(path = paste0(y, collapse = "/"))
     }); if(sum(out_names != "") > 0) names(output) <- out_names
