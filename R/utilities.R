@@ -637,20 +637,19 @@ report_description = function(
   conf = NULL,
   hide = FALSE
 ){
-  if(!is.null(x)){ # look for a variable "x_description" or add it
-    x_name = if(!is.list(x)) if(!is.null(preset_description[[x]])) preset_description[[x]] else x
-    x_name = if(is.character(x_name)){ if(exists(x_name)) eval(parse(text = x)) else x_name }else x_name
-    # check if it's a list already and get $description from it or finally just take the input "x"
-    y = if(is.list(x_name)){ if(is.null(x_name$descri)) x_name else x$descri }#else x_name
-    if(isTRUE(y %in% c(names(conf)))) y = NULL
-    if(is.character(y)) if(any(file.exists(y))) y <- NULL
-    if(!is.null(y)){
-      if(isTRUE(hide)) cat("<details>\n  <summary>Show details</summary>\n    ")
-      if(isTRUE(hide)) cat(gsub("\\\n", "\\\n    ", y))
-      if(!isTRUE(hide)) cat(y)
-      if(isTRUE(hide)) cat("\n</details>")
-      cat("\n\n")
-    }
+  # look in preset_description and fetch the indicated from the list
+  x_name = if(!is.list(x)) if(!is.null(preset_description[[x]])) preset_description[[x]] else x
+  x_name = if(is.character(x_name)){ if(exists(x_name)) eval(parse(text = x)) else x_name }else x_name
+  # check if it's a list already and get $description from it or finally just take the input "x"
+  y = if(is.list(x_name)){ if(is.null(x_name$descri)) x_name else x$descri }else x_name
+  if(isTRUE(y %in% c(names(conf), x))) y = NULL
+  if(is.character(y)) if(any(file.exists(y))) y <- NULL
+  if(!is.null(y)){
+    if(isTRUE(hide)) cat("<details>\n  <summary>Show details</summary>\n    ")
+    if(isTRUE(hide)) cat(gsub("\\\n", "\\\n    ", y))
+    if(!isTRUE(hide)) cat(y)
+    if(isTRUE(hide)) cat("\n</details>")
+    cat("\n\n")
   }
   invisible(x = NULL)
 }
