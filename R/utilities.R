@@ -126,7 +126,7 @@ process_step = function(
   object,
   name = NULL,
   address = "file://",
-  path = "/mnt/BioAdHoc/Groups/"
+  path = ""
 ){
   if(class(object) == "Reportr"){
     address = object@address
@@ -134,6 +134,8 @@ process_step = function(
     object = object@steps
   }
   if(is.null(name)) name = 1
+  if(isTRUE(names(object)[1] == "")) names(object)[1] = "output"
+  if(names(object)[1] != "output") object = c(output = "no_path/found", object)
   config = list(output_dir = "no_path/found")
   if(is.null(object[[name]]))
     return(list(output = "no_path/found", config = config))
@@ -527,59 +529,64 @@ report_tables = function(
   interactive = "choose",
   table_summarise = FALSE
 ){
-  mytab_f <- if(!is.null(x)) x[file.exists(x)]
+  java_toggle_table_f = function(x){
+    paste0("<script type='text/javascript'>\n",
+    "  function toggle(id) {\n",
+    "    var e = document.getElementById(id);\n",
+    "    if(e.style.display == 'block')\n",
+    "       e.style.display = 'none';\n",
+    "    else\n",
+    "       e.style.display = 'block';\n",
+    "  }\n",
+    "</script>\n\n",
+    "<div id='msum", x, "' style='display:none'>\n",
+    "```{r metadata_summary", x, ", echo = FALSE, eval = TRUE}\n",
+    "if(file.exists(ldata_file)){\n",
+    "  knitr::kable(get_summary_table(mytab_df), align = 'l')\n",
+    "}\n",
+    "```\n\n",
+    "</div>\n\n",
+    "<button title='Click to show' type='button' onclick='toggle('msum", x, "')'>",
+    "Summary</button>\n")
+  }
+  dt_datatable = paste0("dtdf = lapply(X = myfiles, data.table::fread)\n",
+  "dtdf <- as.data.frame(data.table::rbindlist(dtdf, fill = TRUE))\n",
+  "DT::datatable(\n",
+  "  data = dtdf, rownames = FALSE, filter = 'top',\n",
+  "  extensions = list('Buttons' = NULL, 'FixedColumns' = list(leftColumns = 1)),\n",
+  "  options = list(\n",
+  "    dom = 'BRrltpi',\n",
+  "    buttons = list(list(\n",
+  "      extend = 'collection', buttons = c('csv', 'excel', 'pdf'),\n",
+  "      text = 'Download'\n",
+  "    )), pageLength = 5,\n",
+  "    lengthMenu = list(c(5, 10, 15, -1), c('5', '10', '15', 'All')),\n",
+  "    scrollX = TRUE\n",
+  "  )\n",
+  ")\n```\n")
+  mytab_files <- if(!is.null(x)) x[file.exists(x)]
   if(is.null(interactive)) interactive = "choose"
-  if(length(mytab_f) > 0){
-    mytab_df = lapply(X = mytab_f, data.table::fread)
-    mytab_df <- as.data.frame(data.table::rbindlist(mytab_df, fill = TRUE))
-    if(isTRUE(interactive == "choose")) interactive = isTRUE(nrow(mytab_df) > 15)
-    if(isTRUE(interactive)){
-      tmp = tempfile(fileext = ".rmd") # mytab_f = c("f1", "f2")
-      cat("```{r childish, echo=FALSE}\n",
-        paste0("myfiles = c('", paste0(mytab_f, collapse = "', '"), "')\n"),
-        "dtdf = lapply(X = myfiles, data.table::fread)\n",
-        "dtdf <- as.data.frame(data.table::rbindlist(dtdf, fill = TRUE))\n",
-        "DT::datatable(\n",
-        "  data = dtdf, rownames = FALSE, filter = 'top',\n",
-        "  extensions = list('Buttons' = NULL, 'FixedColumns' = list(leftColumns = 1)),\n",
-        "  options = list(\n",
-        "    dom = 'BRrltpi',\n",
-        "    buttons = list(list(\n",
-        "      extend = 'collection', buttons = c('csv', 'excel', 'pdf'),\n",
-        "      text = 'Download'\n",
-        "    )), pageLength = 5,\n",
-        "    lengthMenu = list(c(5, 10, 15, -1), c('5', '10', '15', 'All')),\n",
-        "    scrollX = TRUE\n",
-        "  )\n",
-        ")\n```\n", file = tmp)
-      if(isTRUE(table_summarise)){
-        cat("<script type='text/javascript'>
-          function toggle(id) {
-            var e = document.getElementById(id);
-            if(e.style.display == 'block')
-               e.style.display = 'none';
-            else
-               e.style.display = 'block';
-          }
-        </script>
-
-        <div id='msum' style='display:none'>
-        ```{r metadata_summary, echo = FALSE, eval = TRUE}
-        if(file.exists(ldata_file)){
-          knitr::kable(get_summary_table(mytab_df), align = 'l')
+  if(length(mytab_files) > 0){
+    for(i in 1:length(mytab_files)){
+      mytab_df = lapply(X = mytab_files[[i]], data.table::fread)
+      mytab_df <- as.data.frame(data.table::rbindlist(mytab_df, fill = TRUE))
+      if(isTRUE(interactive == "choose")) interactive = isTRUE(nrow(mytab_df) > 15)
+      if(isTRUE(interactive)){
+        tmp = tempfile(fileext = ".rmd") # mytab_files[[i]] = c("f1", "f2")
+        cat("```{r childish, echo=FALSE}\n",
+          paste0("myfiles = c('", paste0(mytab_files[[i]], collapse = "', '"), "')\n"),
+          dt_datatable, file = tmp)
+        if(isTRUE(table_summarise)){
+          cat(java_toggle_table_f(i), append = TRUE, file = tmp)
         }
-        ```
-
-        </div>
-
-        <button title='Click to show' type='button' onclick='toggle('msum')'>Summary</button>",
-        append = TRUE, file = tmp)
-      }
-      res <- if(!is.null(knitr::current_input())) knitr::knit_child(tmp, quiet = TRUE) else readLines(tmp)
-      cat(res, sep = '\n'); cat("\n\n")
-    }else{
-      print(knitr::kable(mytab_df, align = "c", digits = 2))
-    }; cat("\n\n")
+        res <- if(!is.null(knitr::current_input())){
+          knitr::knit_child(tmp, quiet = TRUE)
+        }else{ readLines(tmp) }
+        cat(res, sep = '\n'); cat("\n\n")
+      }else{
+        print(knitr::kable(mytab_df, align = "c", digits = 2))
+      }; cat("\n\n")
+    }
   }
   invisible(x = NULL)
 }
@@ -857,7 +864,7 @@ report_set_titles = function(
   nameless <- which(names(object@steps) == "")
   names(object@steps)[nameless] <- paste0("step_", nameless)
   for(i in names(object@steps)){
-    i_t = if(is.null(preset_titles)) i else preset_titles[[i]]
+    i_t = if(is.null(preset_titles[[i]])) i else preset_titles[[i]]
     if(!"title" %in% names(object@steps[[i]]))
       object@steps[[i]] <- c(as.list(object@steps[[i]]), title = make_title(i_t))
   }
