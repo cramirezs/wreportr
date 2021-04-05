@@ -868,7 +868,7 @@ report_set_titles = function(
   for(i_t in 1:length(object@steps)){
     i = sub(".*~", "", names(object@steps)[i_t])
     i = if(is.null(preset_titles[[i]])) make_title(i) else preset_titles[[i]]
-    if(!grepl("$.*$", i)) i <- paste("$\\Box$", i)
+    if(!grepl("\\$.*\\$", i)) i <- paste("$\\Box$", i)
     if(!"title" %in% names(object@steps[[i_t]]))
       object@steps[[i_t]] <- c(as.list(object@steps[[i_t]]), title = i)
   }
