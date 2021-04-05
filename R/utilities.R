@@ -580,8 +580,9 @@ report_tables = function(
           cat(java_toggle_table_f(i), append = TRUE, file = tmp)
         }
         res <- if(!is.null(knitr::current_input())){
+          print("knitting child")
           knitr::knit_child(tmp, quiet = TRUE)
-        }else{ readLines(tmp) }
+        }else{ print("reading"); readLines(tmp) }
         cat(res, sep = '\n'); cat("\n\n")
       }else{
         print(knitr::kable(mytab_df, align = "c", digits = 2))
@@ -826,6 +827,7 @@ report_section = function(
   report_command(x = processed$config)
   report_filters(x = processed$config)
   report_parameters(x = processed$config)
+  print(processed)
   report_tables(
     x = processed$config$table,
     interactive = processed$config$interactive,
