@@ -723,7 +723,10 @@ report_issues = function(
   is_config = function(x){
     if(!is.list(x)){
       FALSE
-    }else sum(unlist(sapply(x, function(x) file.exists(x[[1]]) ))) > 1
+    }else sum(unlist(sapply(x, function(x){
+      print(x)
+      if(is.character(x)) file.exists(unlist(x)[[1]]) else 0
+    }))) > 1
   }
   .issue_types = c(
     Solved = "[&#10004;]", solved = "[&#10003;]", # bold and thin ticks

@@ -24,7 +24,7 @@ You can install the developing version of wreportr from
 [GitHub](https://github.com/cramirezs/wreportr) with:
 
 ``` r
-devtools::install_github("wreportr")
+devtools::install_github("cramirezs/wreportr", ref = "main")
 ```
 
 ## Examples
