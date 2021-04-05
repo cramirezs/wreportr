@@ -51,7 +51,7 @@ create_wsteps <- function(
   path = "",
   markdown = list("")
 ) {
-  UseMethod(generic = "create_wsteps", object = steps)
+  UseMethod(generic = "create_wsteps")
 }
 create_wsteps.default = function(
   steps,
