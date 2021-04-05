@@ -32,7 +32,7 @@ You can install the developing version of wreportr from
 [GitHub](https://github.com/cramirezs/wreportr) with:
 
 ```{r, eval = FALSE}
-devtools::install_github("wreportr")
+devtools::install_github("cramirezs/wreportr", ref = "main")
 ```
 
 ```{r setup, include = FALSE}

@@ -19,7 +19,7 @@ Imports:
     rmarkdown (>= 2.6),
     yaml (>= 2.2.1),
     knitr (>= 1.30),
-    DT (>= 0.16),
+    DT (>= 0.13),
     reshape2 (>= 1.4.4),
     stringr (>= 1.4.0),
     data.table (>= 1.13.4),
