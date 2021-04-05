@@ -724,7 +724,6 @@ report_issues = function(
     if(!is.list(x)){
       FALSE
     }else sum(unlist(sapply(x, function(x){
-      print(x)
       if(is.character(x)) file.exists(unlist(x)[[1]]) else 0
     }))) > 1
   }
@@ -841,17 +840,17 @@ report_section = function(
 }
 
 #' @title Create step titles
-#' @description `reportr_set_titles` takes the list of steps and uses the names
+#' @description `report_set_titles` takes the list of steps and uses the names
 #' as titles.
 #' @param object Reportr object.
 #' @return Reportr object with titles in each step.
 #' @examples
 #' \dontrun{
-#'  if(interactive()) reportr_set_titles(create_wsteps(list(`step n`="path")))@steps
+#'  if(interactive()) report_set_titles(create_wsteps(list(`step n`="path")))@steps
 #' }
-#' @rdname reportr_set_titles
+#' @rdname report_set_titles
 #' @export
-reportr_set_titles = function(
+report_set_titles = function(
   object
 ) {
   if(is.null(names(object@steps)))
@@ -1030,7 +1029,7 @@ report_render = function(
 ) {
   if(is.null(rmd_file))
     rmd_file = tempfile(fileext = paste0(make.names(object@project.name), ".rmd"))
-  object = reportr_set_titles(object)
+  object = report_set_titles(object)
   ofile = tempfile(fileext = ".rds")
   saveRDS(object, file = ofile)
   cat(markdown_check(object), file = rmd_file)
