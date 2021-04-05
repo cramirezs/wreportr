@@ -975,8 +975,7 @@ report_steps = function(
       gname = sub("~.*", "", i)
       if(gname == "") gname = paste("Step group", min(which(grep(gname, snames))))
       if(grouped_init) cat("##", make_title(gname), "\n"); grouped_init = FALSE
-      names(object@steps)[which(snames == i)] = sub(".*~", "", i)
-      grouped = "#"
+      i = names(object@steps)[which(snames == i)] = sub(".*~", "", i); "#"
     }else{ grouped_init = TRUE; "" }
     report_section(
       object = object,
