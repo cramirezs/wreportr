@@ -381,7 +381,9 @@ highlight_f = function(
         if(p2name == "") p2name <- sub("([^.]+)\\.[[:alnum:]]+$", "\\1", basename(fname_i))
         # if(!grepl("csv$|txt$|pdf$|png$", fname_i)) next
         if(init_tabset){
-          results_i = paste0("[results](", path2address(path_j, address), ")")
+          results_i = if(result_name != "Highlighted"){
+            paste0("[results](", path2address(path_j, address), ")")
+          }else{ "results" }
           cat(hlevel, "-", result_name, results_i, "{.tabset}\n\n"); init_tabset = FALSE
         }
         cat(hlevel, "# ", make_title(p2name), "\n\n", sep = "");
@@ -683,6 +685,7 @@ report_gsheet = function(
     gsub("\\?..*|&.*", "", my_id)
   }
   if(!is.null(x)){
+    x = unlist(x); x = x[grep("google", x)]
     cat(paste0(
       'We can continue discussions and documenting tasks or [ready to publish] ',
       'figure in our Google Drive <a href="', x,
@@ -837,11 +840,12 @@ report_section = function(
   report_files(
     confs = object@steps, name = name,
     path = processed$output,
-    lock = grepl("lock|parameters", processed$config) || lock,
+    lock = grepl("lock|parameters", names(processed$config)) || lock,
     hlevel = paste0(hlevel, "#"),
     close_tabset = close_tabset,
     address = object@address
   )
+  if(isTRUE(name == "trac")) report_gsheet(object@steps[[name]])
   invisible(x = NULL)
 }
 
@@ -864,9 +868,10 @@ report_set_titles = function(
   nameless <- which(names(object@steps) == "")
   names(object@steps)[nameless] <- paste0("step_", nameless)
   for(i in names(object@steps)){
-    i_t = if(is.null(preset_titles[[i]])) i else preset_titles[[i]]
+    i_t = if(is.null(preset_titles[[i]])) make_title(i) else preset_titles[[i]]
+    if(!grepl("^$", i_t)) paste("$\\Box$", i_t)
     if(!"title" %in% names(object@steps[[i]]))
-      object@steps[[i]] <- c(as.list(object@steps[[i]]), title = make_title(i_t))
+      object@steps[[i]] <- c(as.list(object@steps[[i]]), title = i_t)
   }
   return(object)
 }

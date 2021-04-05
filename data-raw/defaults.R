@@ -21,7 +21,8 @@ preset_titles = list(
   dgea = "Differential GE analysis",
   mods = "Module scoring",
   traj = "Trajectory",
-  tcrs = "TCR analysis"
+  tcrs = "TCR analysis",
+  trac = "Task/Figures Tracking"
 )
 
 preset_description = list(
@@ -53,7 +54,7 @@ allow us to eliminate heterotypic (transcriptionally different) doublets
 coming from the same patient.",
   qctr =
 "We're using [this script](https://github.com/vijaybioinfo/quality_control)
-tailored to explore QC metrics.[^2]
+tailored to explore QC metrics.
 
 1. Be mindful of the variables you have in the metadata.",
   clus =

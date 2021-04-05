@@ -4,12 +4,7 @@
 \alias{process_step}
 \title{Step output}
 \usage{
-process_step(
-  object,
-  name = NULL,
-  address = "file://",
-  path = "/mnt/BioAdHoc/Groups/"
-)
+process_step(object, name = NULL, address = "file://", path = "")
 }
 \arguments{
 \item{object}{Reportr object.}
@@ -28,7 +23,7 @@ the step element).
 Finding step output path.
 }
 \details{
-It can also take a yaml file with output_dir(/project).
+It can also take a yaml file with output_dir(followed by /project).
 }
 \examples{
 \dontrun{
